@@ -1,0 +1,6 @@
+{
+  "scripts": {
+    "deploy": "vercel --prod",
+    "deploy-preview": "vercel"
+  }
+}
