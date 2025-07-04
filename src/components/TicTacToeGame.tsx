@@ -1,12 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { GameBoard } from '@/components/GameBoard';
 import { GameStatus } from '@/components/GameStatus';
-import { Player, GameState } from '@/types/game';
+import { GameState } from '@/types/game';
 import { 
   createEmptyBoard, 
   checkWinner, 
@@ -153,7 +153,7 @@ export function TicTacToeGame() {
             <div className="text-center">
               <h3 className="text-xl font-bold mb-2">How to Play</h3>
               <p className="text-sm opacity-90">
-                Take turns placing X's and O's on the grid. Get three in a row horizontally, 
+                Take turns placing X&apos;s and O&apos;s on the grid. Get three in a row horizontally, 
                 vertically, or diagonally to win!
               </p>
             </div>

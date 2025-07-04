@@ -32,7 +32,7 @@ export function GameStatus({ currentPlayer, winner, isGameOver, score }: GameSta
       return (
         <div className="flex items-center gap-2">
           <RotateCcw className="w-5 h-5 text-gray-500" />
-          <span className="font-bold text-lg">It's a draw! 🤝</span>
+          <span className="font-bold text-lg">It&apos;s a draw! 🤝</span>
         </div>
       );
     }
@@ -40,7 +40,7 @@ export function GameStatus({ currentPlayer, winner, isGameOver, score }: GameSta
       <div className="flex items-center gap-2">
         <Users className="w-5 h-5 text-blue-500" />
         <span className="font-bold text-lg">
-          Player {currentPlayer}'s turn
+          Player {currentPlayer}&apos;s turn
         </span>
       </div>
     );
