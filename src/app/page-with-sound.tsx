@@ -23,7 +23,7 @@ export default function Home() {
     if (!mounted || typeof window === 'undefined') return;
     
     try {
-      const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+      const AudioContextClass = window.AudioContext || (window as unknown as { webkitAudioContext: typeof window.AudioContext }).webkitAudioContext;
       if (!AudioContextClass) return;
       
       const audioContext = new AudioContextClass();

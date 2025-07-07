@@ -20,7 +20,7 @@ interface ConfettiParticle {
   rotationSpeed: number;
 }
 
-const Confetti: React.FC<{ winner: Player; onComplete: () => void }> = ({ winner, onComplete }) => {
+const Confetti: React.FC<{ winner: Player | 'draw'; onComplete: () => void }> = ({ winner, onComplete }) => {
   const [particles, setParticles] = useState<ConfettiParticle[]>([]);
   const [mounted, setMounted] = useState(false);
 
@@ -121,7 +121,7 @@ export default function Home() {
     if (!mounted || typeof window === 'undefined') return;
     
     try {
-      const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+      const AudioContextClass = window.AudioContext || (window as unknown as { webkitAudioContext: typeof window.AudioContext }).webkitAudioContext;
       if (!AudioContextClass) return;
       
       const audioContext = new AudioContextClass();

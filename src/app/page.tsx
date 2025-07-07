@@ -205,7 +205,7 @@ const getComputerMove = (board: Player[]): number => {
   if (availableMoves.length === 0) return -1;
   
   // Try to win
-  for (let move of availableMoves) {
+  for (const move of availableMoves) {
     const testBoard = [...board];
     testBoard[move] = 'O';
     if (checkWinner(testBoard) === 'O') {
@@ -214,7 +214,7 @@ const getComputerMove = (board: Player[]): number => {
   }
   
   // Try to block player
-  for (let move of availableMoves) {
+  for (const move of availableMoves) {
     const testBoard = [...board];
     testBoard[move] = 'X';
     if (checkWinner(testBoard) === 'X') {
