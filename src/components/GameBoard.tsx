@@ -21,9 +21,10 @@ export function GameBoard({ board, onCellClick, winningCombination, disabled }: 
   };
 
   const playSound = (type: 'click' | 'win' | 'draw') => {
+    if (typeof window === 'undefined') return;
     try {
       // Create simple 8-bit sound effects using Web Audio API
-      const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+      const AudioContextClass = window.AudioContext || (window as unknown as { webkitAudioContext: typeof window.AudioContext }).webkitAudioContext;
       const audioContext = new AudioContextClass();
       const oscillator = audioContext.createOscillator();
       const gainNode = audioContext.createGain();
