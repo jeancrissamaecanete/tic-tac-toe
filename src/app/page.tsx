@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Player, GameMode, GameState, Difficulty } from "@/types/game";
 
 // Confetti Component
@@ -229,11 +229,11 @@ export default function Home() {
     currentPlayer: "X",
     winner: null,
     isGameOver: false,
-    gameMode: "two-player",
+    gameMode: "local",
     score: { X: 0, O: 0, draws: 0 },
     winningCombination: null,
   });
-  const [gameMode, setGameMode] = useState<GameMode>("two-player");
+  const [gameMode, setGameMode] = useState<GameMode>("local");
   const [gameStarted, setGameStarted] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
 
@@ -273,8 +273,8 @@ export default function Home() {
     });
   };
 
-  const handleComputerMove = () => {
-    if (gameState.currentPlayer === "O" && gameMode === "single-player" && !gameState.winner) {
+  const handleComputerMove = useCallback(() => {
+    if (gameState.currentPlayer === "O" && gameMode === "ai" && !gameState.winner) {
       const computerMove = getComputerMove(gameState.board);
       if (computerMove !== -1) {
         setTimeout(() => {
@@ -312,11 +312,11 @@ export default function Home() {
         }, 500);
       }
     }
-  };
+  }, [gameState, gameMode]);
 
   useEffect(() => {
     handleComputerMove();
-  }, [gameState.currentPlayer, gameMode, gameState.board, gameState.winner, handleComputerMove]); // Added missing dependencies
+  }, [handleComputerMove]); // Simplified dependencies
 
   const resetGame = () => {
     playSound('button');
@@ -407,7 +407,7 @@ export default function Home() {
             gap: "1.5rem"
           }}>
             <button
-              onClick={() => selectGameMode("two-player")}
+              onClick={() => selectGameMode("local")}
               style={{
                 background: "linear-gradient(135deg, #dbeafe, #bfdbfe)",
                 padding: "2rem",
@@ -437,7 +437,7 @@ export default function Home() {
             </button>
             
             <button
-              onClick={() => selectGameMode("single-player")}
+              onClick={() => selectGameMode("ai")}
               style={{
                 background: "linear-gradient(135deg, #f3e8ff, #e9d5ff)",
                 padding: "2rem",
@@ -579,7 +579,7 @@ export default function Home() {
               borderRadius: "1rem",
               boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
             }}>
-              {gameMode === "single-player" && gameState.currentPlayer === "O" ? (
+              {gameMode === "ai" && gameState.currentPlayer === "O" ? (
                 <span>🤖 Computer is thinking...</span>
               ) : (
                 <>Current Player: <span style={{ fontWeight: "bold", color: gameState.currentPlayer === "X" ? "#60a5fa" : "#f87171" }}>{gameState.currentPlayer}</span></>
