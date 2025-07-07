@@ -1,7 +1,6 @@
 'use client';
 
 import { Player } from '@/types/game';
-import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
 interface GameBoardProps {
@@ -24,7 +23,8 @@ export function GameBoard({ board, onCellClick, winningCombination, disabled }: 
   const playSound = (type: 'click' | 'win' | 'draw') => {
     try {
       // Create simple 8-bit sound effects using Web Audio API
-      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+      const audioContext = new AudioContextClass();
       const oscillator = audioContext.createOscillator();
       const gainNode = audioContext.createGain();
       
@@ -56,7 +56,7 @@ export function GameBoard({ board, onCellClick, winningCombination, disabled }: 
       
       oscillator.start();
       oscillator.stop(audioContext.currentTime + 0.5);
-    } catch (error) {
+    } catch {
       // Fallback if Web Audio API is not available
       // Audio not available in this environment
     }

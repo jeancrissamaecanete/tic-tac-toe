@@ -16,7 +16,7 @@ export function GameStatus({ currentPlayer, winner, gameMode }: GameStatusProps)
           <div className="flex items-center">
             <div className="text-2xl mr-3">🤝</div>
             <span className="font-bold text-xl text-yellow-700">
-              It's a Draw!
+              It&apos;s a Draw!
             </span>
           </div>
         </div>
@@ -43,7 +43,7 @@ export function GameStatus({ currentPlayer, winner, gameMode }: GameStatusProps)
         <div className="flex items-center">
           <div className="text-2xl mr-3">{isAITurn ? '🤖' : '👤'}</div>
           <span className="font-bold text-lg text-blue-700">
-            {isAITurn ? 'AI' : `Player ${currentPlayer}`}'s Turn
+            {isAITurn ? 'AI' : `Player ${currentPlayer}`}&apos;s Turn
           </span>
         </div>
       </div>

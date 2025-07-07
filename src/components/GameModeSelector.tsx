@@ -11,141 +11,85 @@ interface GameModeSelectorProps {
 
 export function GameModeSelector({ onModeSelect }: GameModeSelectorProps) {
   return (
-    <div className="min-h-screen bg-black pixel-bg p-4 flex items-center justify-center">
-      <div className="max-w-2xl w-full">
-        <div className="pixel-card p-8 mb-8">
-          <div className="text-center pb-8">
-            <h1 className="text-8xl font-bold text-cyan-400 mb-4 pixel-font pixel-glow">
-              <Gamepad2 className="inline-block w-20 h-20 text-yellow-400 mr-4" />
-              TIC-TAC-TOE
-            </h1>
-            <p className="text-2xl text-purple-300 pixel-text">
-              CHOOSE YOUR BATTLE MODE, PIXEL WARRIOR!
-            </p>
-          </div>
-          
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 p-4 flex items-center justify-center">
+      <div className="max-w-4xl w-full">
+        <div className="text-center pb-8 pt-8">
+          <h1 className="text-6xl font-bold text-white mb-4 tracking-tight">
+            <Gamepad2 className="inline-block w-16 h-16 text-blue-400 mr-4" />
+            TIC-TAC-TOE
+          </h1>
+          <p className="text-xl text-slate-300">
+            Choose your game mode
+          </p>
+        </div>
+        
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Local Multiplayer */}
-          <div className="pixel-card mb-6 p-6 border-pink-400 hover:border-pink-300 transition-all duration-300">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-6">
-                <Users className="w-16 h-16 text-pink-400" />
-                <div>
-                  <h3 className="text-4xl font-bold text-pink-400 pixel-font">2 PLAYER</h3>
-                  <p className="text-pink-300 pixel-text">LOCAL MULTIPLAYER MODE</p>
-                </div>
-              </div>
-              <button
+          <Card className="bg-slate-800/50 border-slate-700 hover:bg-slate-800/70 transition-all duration-300 cursor-pointer group">
+            <CardHeader className="text-center">
+              <Users className="w-16 h-16 text-green-400 mx-auto mb-4 group-hover:scale-110 transition-transform" />
+              <CardTitle className="text-2xl text-white">Local Multiplayer</CardTitle>
+              <CardDescription className="text-slate-300">
+                Play with a friend on the same device
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="text-center">
+              <Button
                 onClick={() => onModeSelect('local')}
-                className="pixel-button bg-pink-500 hover:bg-pink-400 text-white px-8 py-4 text-xl"
+                className="w-full bg-green-500 hover:bg-green-400 text-white font-semibold py-3 text-lg transition-all duration-200"
               >
-                ► PLAY
-              </button>
-            </div>
-          </div>
+                Start Game
+              </Button>
+            </CardContent>
+          </Card>
 
           {/* AI Mode */}
-          <div className="pixel-card p-6 border-cyan-400 hover:border-cyan-300 transition-all duration-300">
-            <div className="flex items-center justify-between mb-6">
-              <div className="flex items-center space-x-6">
-                <Bot className="w-16 h-16 text-cyan-400" />
-                <div>
-                  <h3 className="text-4xl font-bold text-cyan-400 pixel-font">VS AI</h3>
-                  <p className="text-cyan-300 pixel-text">BATTLE THE MACHINE</p>
-                </div>
+          <Card className="bg-slate-800/50 border-slate-700 hover:bg-slate-800/70 transition-all duration-300">
+            <CardHeader className="text-center">
+              <Bot className="w-16 h-16 text-blue-400 mx-auto mb-4" />
+              <CardTitle className="text-2xl text-white">VS AI</CardTitle>
+              <CardDescription className="text-slate-300">
+                Challenge the computer at different difficulty levels
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 gap-3">
+                <Button
+                  onClick={() => onModeSelect('ai', 'easy')}
+                  className="bg-green-500 hover:bg-green-400 text-white font-semibold py-3 transition-all duration-200"
+                >
+                  <Star className="w-5 h-5 mr-2" />
+                  Easy
+                </Button>
+                <Button
+                  onClick={() => onModeSelect('ai', 'medium')}
+                  className="bg-yellow-500 hover:bg-yellow-400 text-white font-semibold py-3 transition-all duration-200"
+                >
+                  <div className="flex items-center justify-center">
+                    <Star className="w-4 h-4 mr-1" />
+                    <Star className="w-4 h-4 mr-2" />
+                    Medium
+                  </div>
+                </Button>
+                <Button
+                  onClick={() => onModeSelect('ai', 'hard')}
+                  className="bg-red-500 hover:bg-red-400 text-white font-semibold py-3 transition-all duration-200"
+                >
+                  <div className="flex items-center justify-center">
+                    <Star className="w-4 h-4 mr-1" />
+                    <Star className="w-4 h-4 mr-1" />
+                    <Star className="w-4 h-4 mr-2" />
+                    Hard
+                  </div>
+                </Button>
               </div>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <button
-                onClick={() => onModeSelect('ai', 'easy')}
-                className="pixel-button bg-green-500 hover:bg-green-400 text-white py-6 text-lg"
-              >
-                <div className="text-center">
-                  <Star className="w-8 h-8 mx-auto mb-2" />
-                  <div className="pixel-text">EASY</div>
-                </div>
-              </button>
-              <button
-                onClick={() => onModeSelect('ai', 'medium')}
-                className="pixel-button bg-yellow-500 hover:bg-yellow-400 text-white py-6 text-lg"
-              >
-                <div className="text-center">
-                  <div className="flex justify-center mb-2">
-                    <Star className="w-6 h-6" />
-                    <Star className="w-6 h-6" />
-                  </div>
-                  <div className="pixel-text">MEDIUM</div>
-                </div>
-              </button>
-              <button
-                onClick={() => onModeSelect('ai', 'hard')}
-                className="pixel-button bg-red-500 hover:bg-red-400 text-white py-6 text-lg"
-              >
-                <div className="text-center">
-                  <div className="flex justify-center mb-2">
-                    <Star className="w-6 h-6" />
-                    <Star className="w-6 h-6" />
-                    <Star className="w-6 h-6" />
-                  </div>
-                  <div className="pixel-text">HARD</div>
-                </div>
-              </button>
-            </div>
-          </div>
-
-          {/* Decorative Elements */}
-          <div className="text-center text-purple-400 pixel-text mt-8">
-            🎮 CRAFTED FOR RETRO GAMING LEGENDS 🎮
-          </div>
+            </CardContent>
+          </Card>
         </div>
-      </div>
-    </div>
-  );
-}
-                  <Button
-                    onClick={() => onModeSelect('ai', 'easy')}
-                    className="bg-green-500 hover:bg-green-400 text-white font-mono py-4 border-2 border-green-400 hover:border-green-300 transition-all duration-300 transform hover:scale-105"
-                  >
-                    <div className="text-center">
-                      <Star className="w-6 h-6 mx-auto mb-1" />
-                      <div>EASY</div>
-                    </div>
-                  </Button>
-                  <Button
-                    onClick={() => onModeSelect('ai', 'medium')}
-                    className="bg-yellow-500 hover:bg-yellow-400 text-white font-mono py-4 border-2 border-yellow-400 hover:border-yellow-300 transition-all duration-300 transform hover:scale-105"
-                  >
-                    <div className="text-center">
-                      <div className="flex justify-center mb-1">
-                        <Star className="w-4 h-4" />
-                        <Star className="w-4 h-4" />
-                      </div>
-                      <div>MEDIUM</div>
-                    </div>
-                  </Button>
-                  <Button
-                    onClick={() => onModeSelect('ai', 'hard')}
-                    className="bg-red-500 hover:bg-red-400 text-white font-mono py-4 border-2 border-red-400 hover:border-red-300 transition-all duration-300 transform hover:scale-105"
-                  >
-                    <div className="text-center">
-                      <div className="flex justify-center mb-1">
-                        <Star className="w-4 h-4" />
-                        <Star className="w-4 h-4" />
-                        <Star className="w-4 h-4" />
-                      </div>
-                      <div>HARD</div>
-                    </div>
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
 
-            {/* Decorative Elements */}
-            <div className="text-center text-purple-400 font-mono text-sm">
-              🎮 Made with love for retro gaming fans 🎮
-            </div>
-          </CardContent>
-        </Card>
+        <div className="text-center mt-8 text-slate-400">
+          Built with React 19, Next.js 15, Tailwind CSS, and shadcn/ui
+        </div>
       </div>
     </div>
   );

@@ -1,8 +1,8 @@
-export type Player = 'X' | 'O' | null;
+export type Player = 'X' | 'O' | 'draw' | null;
 
 export type Board = Player[];
 
-export type GameMode = 'local' | 'ai';
+export type GameMode = 'local' | 'ai' | 'two-player' | 'single-player';
 
 export type Difficulty = 'easy' | 'medium' | 'hard';
 
@@ -12,12 +12,13 @@ export interface GameState {
   winner: Player;
   isGameOver: boolean;
   gameMode: GameMode;
-  difficulty: Difficulty;
+  difficulty?: Difficulty;
   score: {
     X: number;
     O: number;
     draws: number;
   };
+  winningCombination: number[] | null;
 }
 
 export interface GameStats {

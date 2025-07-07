@@ -216,37 +216,35 @@ export function TicTacToeGame() {
         <div className="flex justify-center">
           <GameBoard
             board={gameState.board}
-                onCellClick={handleCellClick}
-                winningCombination={winningCombination}
-                disabled={gameState.isGameOver || isAIThinking}
-              />
-            </div>
+            onCellClick={handleCellClick}
+            winningCombination={winningCombination}
+            disabled={gameState.isGameOver || isAIThinking}
+          />
+        </div>
 
-            <div className="modern-button-container">
-              <button
-                onClick={resetGame}
-                className="modern-button primary"
-              >
-                <RefreshCw className="w-4 h-4 mr-2" />
-                New Game
-              </button>
-              <button
-                onClick={resetScore}
-                className="modern-button secondary"
-              >
-                <Sparkles className="w-4 h-4 mr-2" />
-                Reset Score
-              </button>
-              <Button
-                onClick={backToMenu}
-                variant="outline"
-                className="modern-button"
-              >
-                <Home className="w-4 h-4 mr-2" />
-                Change Mode
-              </Button>
-            </div>
-          </div>
+        <div className="modern-button-container">
+          <button
+            onClick={resetGame}
+            className="modern-button primary"
+          >
+            <RefreshCw className="w-4 h-4 mr-2" />
+            New Game
+          </button>
+          <button
+            onClick={resetScore}
+            className="modern-button secondary"
+          >
+            <Sparkles className="w-4 h-4 mr-2" />
+            Reset Score
+          </button>
+          <Button
+            onClick={backToMenu}
+            variant="outline"
+            className="modern-button"
+          >
+            <Home className="w-4 h-4 mr-2" />
+            Change Mode
+          </Button>
         </div>
 
         <div className="modern-instructions">

@@ -1,17 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-
-type Player = 'X' | 'O' | 'draw' | null;
-type GameMode = 'two-player' | 'single-player';
-
-interface GameState {
-  board: Player[];
-  currentPlayer: Player;
-  winner: Player;
-  score: { X: number; O: number };
-  winningCombination: number[] | null;
-}
+import { Player, GameMode, GameState, Difficulty } from "@/types/game";
 
 // Confetti Component
 interface ConfettiParticle {
@@ -110,7 +100,8 @@ const playSound = (type: 'move' | 'win' | 'draw' | 'button') => {
   if (typeof window === 'undefined') return;
   
   try {
-    const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+    const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+    const audioContext = new AudioContextClass();
     const oscillator = audioContext.createOscillator();
     const gainNode = audioContext.createGain();
     
@@ -167,7 +158,7 @@ const playSound = (type: 'move' | 'win' | 'draw' | 'button') => {
         oscillator.stop(audioContext.currentTime + 0.05);
         break;
     }
-  } catch (error) {
+  } catch {
     // Silently fail if audio context is not available
     console.log('Audio not available');
   }
@@ -237,7 +228,9 @@ export default function Home() {
     board: Array(9).fill(null),
     currentPlayer: "X",
     winner: null,
-    score: { X: 0, O: 0 },
+    isGameOver: false,
+    gameMode: "two-player",
+    score: { X: 0, O: 0, draws: 0 },
     winningCombination: null,
   });
   const [gameMode, setGameMode] = useState<GameMode>("two-player");
@@ -257,13 +250,14 @@ export default function Home() {
     const winningCombination = getWinningCombination(newBoard);
     const isDraw = !winner && isBoardFull(newBoard);
 
-    let newScore = { ...gameState.score };
+    const newScore = { ...gameState.score };
     if (winner && winner !== "draw") {
       newScore[winner]++;
       setShowConfetti(true);
       // Play win sound
       setTimeout(() => playSound('win'), 100);
     } else if (isDraw) {
+      newScore.draws++;
       // Play draw sound
       setTimeout(() => playSound('draw'), 100);
     }
@@ -273,6 +267,7 @@ export default function Home() {
       board: newBoard,
       currentPlayer: gameState.currentPlayer === "X" ? "O" : "X",
       winner: winner || (isDraw ? "draw" : null),
+      isGameOver: winner !== null || isDraw,
       score: newScore,
       winningCombination,
     });
@@ -293,13 +288,14 @@ export default function Home() {
           const winningCombination = getWinningCombination(newBoard);
           const isDraw = !winner && isBoardFull(newBoard);
 
-          let newScore = { ...gameState.score };
+          const newScore = { ...gameState.score };
           if (winner && winner !== "draw") {
             newScore[winner]++;
             setShowConfetti(true);
             // Play win sound
             setTimeout(() => playSound('win'), 100);
           } else if (isDraw) {
+            newScore.draws++;
             // Play draw sound
             setTimeout(() => playSound('draw'), 100);
           }
@@ -309,6 +305,7 @@ export default function Home() {
             board: newBoard,
             currentPlayer: "X",
             winner: winner || (isDraw ? "draw" : null),
+            isGameOver: winner !== null || isDraw,
             score: newScore,
             winningCombination,
           });
@@ -319,7 +316,7 @@ export default function Home() {
 
   useEffect(() => {
     handleComputerMove();
-  }, [gameState.currentPlayer, gameMode]);
+  }, [gameState.currentPlayer, gameMode, gameState.board, gameState.winner, handleComputerMove]); // Added missing dependencies
 
   const resetGame = () => {
     playSound('button');
@@ -328,6 +325,7 @@ export default function Home() {
       board: Array(9).fill(null),
       currentPlayer: "X",
       winner: null,
+      isGameOver: false,
       winningCombination: null,
     });
     setShowConfetti(false);
@@ -337,7 +335,7 @@ export default function Home() {
     playSound('button');
     setGameState({
       ...gameState,
-      score: { X: 0, O: 0 },
+      score: { X: 0, O: 0, draws: 0 },
     });
   };
 
@@ -349,7 +347,9 @@ export default function Home() {
       board: Array(9).fill(null),
       currentPlayer: "X",
       winner: null,
-      score: { X: 0, O: 0 },
+      isGameOver: false,
+      gameMode: mode,
+      score: { X: 0, O: 0, draws: 0 },
       winningCombination: null,
     });
   };
@@ -566,7 +566,7 @@ export default function Home() {
               borderRadius: "1rem",
               boxShadow: "0 10px 25px -5px rgba(251, 191, 36, 0.3)",
             }}>
-              🤝 It's a Draw!
+              🤝 It&apos;s a Draw!
             </div>
           ) : (
             <div style={{ 
@@ -679,7 +679,6 @@ export default function Home() {
           {gameState.board.map((cell, index) => {
             const isWinningCell = gameState.winningCombination?.includes(index);
             const isWinnerX = gameState.winner === "X";
-            const isWinnerO = gameState.winner === "O";
             
             return (
               <button
