@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { GameBoard } from '@/components/GameBoard';
 import { GameStatus } from '@/components/GameStatus';
-import { GameModeSelector } from '@/components/GameModeSelector';
+import { GameModeSelector } from '@/components/GameModeSelectorClean';
 import { GameState, GameMode, Difficulty } from '@/types/game';
 import { 
   createEmptyBoard, 
@@ -39,39 +39,48 @@ export function TicTacToeGame() {
   const [isAIThinking, setIsAIThinking] = useState(false);
 
   const playSound = (type: 'win' | 'draw' | 'start') => {
-    const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
-    const oscillator = audioContext.createOscillator();
-    const gainNode = audioContext.createGain();
+    if (typeof window === 'undefined') return;
     
-    oscillator.connect(gainNode);
-    gainNode.connect(audioContext.destination);
-    
-    switch (type) {
-      case 'win':
-        oscillator.frequency.setValueAtTime(523, audioContext.currentTime);
-        oscillator.frequency.setValueAtTime(659, audioContext.currentTime + 0.1);
-        oscillator.frequency.setValueAtTime(784, audioContext.currentTime + 0.2);
-        oscillator.frequency.setValueAtTime(1047, audioContext.currentTime + 0.3);
-        gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.6);
-        break;
-      case 'draw':
-        oscillator.frequency.setValueAtTime(400, audioContext.currentTime);
-        oscillator.frequency.setValueAtTime(350, audioContext.currentTime + 0.1);
-        oscillator.frequency.setValueAtTime(300, audioContext.currentTime + 0.2);
-        gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.4);
-        break;
-      case 'start':
-        oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
-        oscillator.frequency.setValueAtTime(600, audioContext.currentTime + 0.1);
-        gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
-        break;
+    try {
+      const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
+      if (!AudioContext) return;
+      
+      const audioContext = new AudioContext();
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      switch (type) {
+        case 'win':
+          oscillator.frequency.setValueAtTime(523, audioContext.currentTime);
+          oscillator.frequency.setValueAtTime(659, audioContext.currentTime + 0.1);
+          oscillator.frequency.setValueAtTime(784, audioContext.currentTime + 0.2);
+          oscillator.frequency.setValueAtTime(1047, audioContext.currentTime + 0.3);
+          gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+          gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.6);
+          break;
+        case 'draw':
+          oscillator.frequency.setValueAtTime(400, audioContext.currentTime);
+          oscillator.frequency.setValueAtTime(350, audioContext.currentTime + 0.1);
+          oscillator.frequency.setValueAtTime(300, audioContext.currentTime + 0.2);
+          gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+          gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.4);
+          break;
+        case 'start':
+          oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+          oscillator.frequency.setValueAtTime(600, audioContext.currentTime + 0.1);
+          gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+          gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
+          break;
+      }
+      
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + 0.8);
+    } catch (error) {
+      console.warn('Audio playback not supported');
     }
-    
-    oscillator.start(audioContext.currentTime);
-    oscillator.stop(audioContext.currentTime + 0.8);
   };
 
   const handleModeSelect = (mode: GameMode, difficulty?: Difficulty) => {
@@ -177,88 +186,76 @@ export function TicTacToeGame() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 p-4">
-      <div className="max-w-2xl mx-auto">
-        <Card className="mb-6 bg-black/80 border-4 border-cyan-400 shadow-2xl shadow-cyan-400/50">
-          <CardHeader className="text-center">
-            <CardTitle className="text-5xl font-bold bg-gradient-to-r from-pink-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent flex items-center justify-center gap-2 font-mono">
-              <Gamepad2 className="w-12 h-12 text-cyan-400" />
-              TIC-TAC-TOE
-              <Sparkles className="w-8 h-8 text-yellow-400 animate-pulse" />
-            </CardTitle>
-            <CardDescription className="text-xl text-purple-300 font-mono">
-              {gameState.gameMode === 'ai' ? 'Battle against the AI!' : 'Challenge your friend!'}
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            {showAlert && (
-              <Alert className="border-green-400 bg-green-900/50 border-2">
-                <AlertDescription className="text-center font-semibold text-green-300 font-mono">
-                  {gameState.winner 
-                    ? `🎉 ${gameState.gameMode === 'ai' && gameState.winner === 'O' ? 'AI' : `PLAYER ${gameState.winner}`} WINS!`
-                    : '🤝 DRAW GAME! Great battle!'
-                  }
-                </AlertDescription>
-              </Alert>
-            )}
+    <div className="modern-container">
+      <div className="text-center pb-8 pt-8">
+        <h1 className="modern-title">
+          TIC-TAC-TOE
+        </h1>
+        <p className="modern-subtitle">
+          {gameState.gameMode === 'ai' ? 'Playing Against AI' : 'Local Multiplayer Mode'}
+        </p>
+      </div>
+      <div className="space-y-6">
+        {showAlert && (
+          <Alert className="modern-alert mb-6">
+            <AlertDescription className="text-center font-semibold">
+              {gameState.winner 
+                ? `${gameState.gameMode === 'ai' && gameState.winner === 'O' ? 'AI' : `Player ${gameState.winner}`} Wins!`
+                : 'Draw Game!'
+              }
+            </AlertDescription>
+          </Alert>
+        )}
 
-            <GameStatus 
-              currentPlayer={gameState.currentPlayer}
-              winner={gameState.winner}
-              isGameOver={gameState.isGameOver}
-              gameMode={gameState.gameMode}
-              difficulty={gameState.difficulty}
-              score={gameState.score}
-            />
+        <GameStatus 
+          currentPlayer={gameState.currentPlayer}
+          winner={gameState.winner}
+          gameMode={gameState.gameMode}
+        />
 
-            <div className="flex justify-center">
-              <GameBoard
-                board={gameState.board}
+        <div className="flex justify-center">
+          <GameBoard
+            board={gameState.board}
                 onCellClick={handleCellClick}
                 winningCombination={winningCombination}
                 disabled={gameState.isGameOver || isAIThinking}
               />
             </div>
 
-            <div className="flex justify-center gap-4">
-              <Button
+            <div className="modern-button-container">
+              <button
                 onClick={resetGame}
-                variant="outline"
-                className="flex items-center gap-2 bg-purple-600 hover:bg-purple-500 text-white border-2 border-purple-400 hover:border-purple-300 font-mono"
+                className="modern-button primary"
               >
-                <RefreshCw className="w-4 h-4" />
-                NEW GAME
-              </Button>
-              <Button
+                <RefreshCw className="w-4 h-4 mr-2" />
+                New Game
+              </button>
+              <button
                 onClick={resetScore}
-                variant="outline"
-                className="flex items-center gap-2 bg-pink-600 hover:bg-pink-500 text-white border-2 border-pink-400 hover:border-pink-300 font-mono"
+                className="modern-button secondary"
               >
-                <RefreshCw className="w-4 h-4" />
-                RESET SCORE
-              </Button>
+                <Sparkles className="w-4 h-4 mr-2" />
+                Reset Score
+              </button>
               <Button
                 onClick={backToMenu}
                 variant="outline"
-                className="flex items-center gap-2 bg-cyan-600 hover:bg-cyan-500 text-white border-2 border-cyan-400 hover:border-cyan-300 font-mono"
+                className="modern-button"
               >
-                <Home className="w-4 h-4" />
-                MENU
+                <Home className="w-4 h-4 mr-2" />
+                Change Mode
               </Button>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
-        <Card className="bg-gradient-to-r from-pink-500/20 to-purple-500/20 border-2 border-pink-400 text-white">
-          <CardContent className="p-6">
-            <div className="text-center">
-              <h3 className="text-xl font-bold mb-2 font-mono text-pink-300">🎮 HOW TO PLAY</h3>
-              <p className="text-sm text-pink-200 font-mono">
-                Get three X&apos;s or O&apos;s in a row to win! Think fast and play smart! 🚀
-              </p>
-            </div>
-          </CardContent>
-        </Card>
+        <div className="modern-instructions">
+          <h3 className="modern-section-title">How to Play</h3>
+          <p className="modern-text">
+            Get three X's or O's in a row to win!
+            {gameState.gameMode === 'ai' && ' You are X, AI is O!'}
+          </p>
+        </div>
       </div>
     </div>
   );

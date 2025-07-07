@@ -1,36 +1,104 @@
-# Tic-Tac-Toe Game
+# 🎮 Professional Tic-Tac-Toe Game
 
-A modern, interactive Tic-Tac-Toe game built with React 19, Next.js 15, TypeScript, Tailwind CSS, and shadcn/ui components.
+A modern, interactive Tic-Tac-Toe game built with the latest web technologies. Features beautiful UI, smart AI opponent, sound effects, and celebration animations.
 
-## Features
+![Tic-Tac-Toe Preview](https://img.shields.io/badge/Status-Live-brightgreen)
+![Next.js](https://img.shields.io/badge/Next.js-15-black)
+![React](https://img.shields.io/badge/React-19-blue)
+![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue)
 
-- 🎮 Interactive 3x3 game board
-- 👥 Two-player gameplay (X and O)
-- 🏆 Win detection (horizontal, vertical, diagonal)
-- 🔄 Game reset functionality
-- 📊 Score tracking
-- 🎨 Modern, fun, and engaging UI
-- 📱 Responsive design for all screen sizes
-- ♿ Accessible with keyboard navigation
+## ✨ Features
 
-## Technologies Used
+### 🎯 Game Modes
+- **👥 Local 2-Player** - Play with a friend on the same device
+- **🤖 VS Computer** - Challenge the AI with intelligent moves
+
+### 🎨 Visual Experience
+- **Professional UI Design** - Clean, modern interface with beautiful gradients
+- **Color-coded Players** - Soft blue for X, soft pink for O
+- **Win Highlighting** - Winning combinations are highlighted with enhanced colors
+- **Confetti Celebration** - Animated confetti particles when a player wins
+- **Responsive Design** - Works perfectly on all screen sizes
+
+### 🔊 Audio Experience
+- **Move Sounds** - Pleasant click feedback for each move
+- **Victory Fanfare** - Musical celebration when someone wins
+- **Button Clicks** - Satisfying audio feedback for all interactions
+- **Draw Sound** - Neutral tone for tie games
+
+### 🧠 Smart AI
+- **Strategic Gameplay** - AI tries to win and blocks opponent moves
+- **Center & Corner Priority** - Intelligent positioning strategy
+- **Difficulty Balanced** - Challenging but fair gameplay
+
+### 📊 Game Features
+- **Score Tracking** - Keeps track of wins for both players
+- **Game Reset** - Start new games without losing score
+- **Score Reset** - Clear all scores when needed
+- **Professional Status Display** - Clear game state communication
+
+## 🛠️ Technologies Used
 
 - **React 19** - Latest React with modern features
 - **Next.js 15** - App Router for optimized performance
 - **TypeScript** - Type safety and better developer experience
 - **Tailwind CSS** - Utility-first CSS framework
 - **shadcn/ui** - Beautiful, accessible component library
-- **Lucide React** - Icon library
+- **Web Audio API** - Professional sound effects
 
-## Getting Started
+## 🚀 Getting Started
 
-First, run the development server:
+### Prerequisites
+- Node.js 18+ 
+- npm or yarn
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/jeancrissamaecanete/tic-tac-toe.git
+   cd tic-tac-toe
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Run the development server**
+   ```bash
+   npm run dev
+   ```
+
+4. **Open your browser**
+   Navigate to [http://localhost:3000](http://localhost:3000)
+
+## 🎮 How to Play
+
+1. **Choose Game Mode** - Select between 2-player local or VS Computer
+2. **Make Your Move** - Click on any empty cell to place your mark
+3. **Win the Game** - Get three in a row (horizontal, vertical, or diagonal)
+4. **Enjoy the Celebration** - Watch the confetti and hear the victory fanfare!
+
+## 🔧 Scripts
+
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run start` - Start production server
+- `npm run lint` - Run ESLint
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## 👨‍💻 Author
+
+**Jean Crissa Mae Canete**
+- GitHub: [@jeancrissamaecanete](https://github.com/jeancrissamaecanete)
+
+---
+
+Built with ❤️ using React 19, Next.js 15, Tailwind CSS, and shadcn/ui
 pnpm dev
 # or
 bun dev
